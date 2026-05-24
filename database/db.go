@@ -31,6 +31,7 @@ func Init() {
 				Price:       500,
 				Capacity:    1,
 				Size:        "12 ตร.ม.",
+				ImageURLs:   `["/static/rooms/room_1/Room1.png","/static/rooms/room_1/Untitled-2.png","/static/rooms/room_1/Untitled-3.png","/static/rooms/room_1/Untitled-4.png","/static/rooms/room_1/Untitled-5.png","/static/rooms/room_1/Untitled-6.png","/static/rooms/room_1/Untitled-7.png","/static/rooms/room_1/Untitled-8.png","/static/rooms/room_1/Untitled-9.png"]`,
 				Amenities:   `["ที่นอนนุ่ม","แม่เหล็กเล่น","ถาดทราย","ชามอาหารและน้ำ","ตู้กระจกดูแมว"]`,
 			},
 			{
@@ -40,9 +41,24 @@ func Init() {
 				Price:       1200,
 				Capacity:    2,
 				Size:        "24 ตร.ม.",
+				ImageURLs:   `["/static/rooms/vip-1.jpg","/static/rooms/vip-2.jpg","/static/rooms/vip-3.jpg"]`,
 				Amenities:   `["ระเบียงส่องแดด","เครื่องกรองอากาศ","กล้องวงจรปิด 24 ชม.","ที่นอนหรู","ถาดทรายอัตโนมัติ","ชามอาหารอัตโนมัติ","ของเล่นหลากชนิด"]`,
 			},
 		}
 		DB.Create(&rooms)
+	} else {
+		// Update existing rooms with image_urls if empty
+		var rooms []models.Room
+		DB.Find(&rooms)
+		for _, r := range rooms {
+			if r.ImageURLs == "" {
+				switch r.ID {
+				case 1:
+					DB.Model(&r).Update("image_urls", `["/static/rooms/room_1/Room1.png","/static/rooms/room_1/Untitled-2.png","/static/rooms/room_1/Untitled-3.png","/static/rooms/room_1/Untitled-4.png","/static/rooms/room_1/Untitled-5.png","/static/rooms/room_1/Untitled-6.png","/static/rooms/room_1/Untitled-7.png","/static/rooms/room_1/Untitled-8.png","/static/rooms/room_1/Untitled-9.png"]`)
+				case 2:
+					DB.Model(&r).Update("image_urls", `["/static/rooms/vip-1.jpg","/static/rooms/vip-2.jpg","/static/rooms/vip-3.jpg"]`)
+				}
+			}
+		}
 	}
 }
