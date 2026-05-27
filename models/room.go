@@ -20,5 +20,8 @@ type Room struct {
 	ImageURLs   StringArray `json:"image_urls"`
 	Capacity    int         `json:"capacity"`
 	Size        string      `json:"size"`
+	Width       float64     `json:"width"`
+	Length      float64     `json:"length"`
+	Height      float64     `json:"height"`
 	Amenities   StringArray `json:"amenities"`
 }
